@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
     private long songStartTime;
     private ImageView Nowimage;
     private ImageButton play;
-    private ImageButton pause;
+    //private ImageButton pause;
 
 
 
@@ -50,29 +50,36 @@ public class MainActivity extends Activity {
     };
 
     private void initListeners() {
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                initHandler();
-                mediaplayer.start();
-                songStartTime = System.currentTimeMillis();
-            }
-        });
-        pause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handler.removeCallbacks(updateUI);
-                mediaplayer.pause();
-                songStartTime = System.currentTimeMillis();
-            }
-        });
+        play.setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        if(mediaplayer.isPlaying())
+                        {
+                            handler.removeCallbacks(updateUI);
+                            mediaplayer.pause();
+                            play.setImageResource(R.drawable.play_button);
+                            //play.setText("Play");
+                        }
+                        else
+                        {
+                            initHandler();
+                            mediaplayer.start();
+                            songStartTime = System.currentTimeMillis();
+                            play.setImageResource(R.drawable.pause_button);
+                            //play.setText("Pause");
+                        }
+                    }
+                }
+        );
     }
 
     private void initView(){
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         play = (ImageButton) findViewById(R.id.play);
-        pause = (ImageButton) findViewById(R.id.pause);
+        //pause = (ImageButton) findViewById(R.id.pause);
         mediaplayer = MediaPlayer.create(this, R.raw.song);
         Songtimer = (TextView) findViewById(R.id.Songtimer);
         Songtimer.setText(String.format("%02d:%02d", 0, 0));
