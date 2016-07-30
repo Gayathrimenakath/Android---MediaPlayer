@@ -50,6 +50,7 @@ public class MainActivity extends Activity {
     };
 
     private void initListeners() {
+        play.setImageResource(R.drawable.play_button);
         play.setOnClickListener(
                 new View.OnClickListener()
                 {
